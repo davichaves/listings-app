@@ -31,6 +31,7 @@
       "lastVisited": "12-12-2020"
     },
     "homeImage": "./images/property-1.jpg",
+    "id": 1,
     "images": [
       "./images/property-1.jpg",
       "./images/property-detail-1.jpg",
@@ -77,6 +78,7 @@
       "lastVisited": "11-12-2020"
     },
     "homeImage": "./images/property-2.jpg",
+    "id": 2,
     "images": [
       "./images/property-2.jpg",
       "./images/property-detail-1.jpg",
@@ -123,6 +125,7 @@
       "lastVisited": "11-11-2020"
     },
     "homeImage": "./images/property-3.jpg",
+    "id": 3,
     "images": [
       "./images/property-3.jpg",
       "./images/property-detail-1.jpg",
@@ -169,6 +172,7 @@
       "lastVisited": "9-11-2020"
     },
     "homeImage": "./images/property-4.jpg",
+    "id": 4,
     "images": [
       "./images/property-4.jpg",
       "./images/property-detail-1.jpg",
@@ -215,6 +219,7 @@
       "lastVisited": "9-9-2020"
     },
     "homeImage": "./images/property-5.jpg",
+    "id": 5,
     "images": [
       "./images/property-5.jpg",
       "./images/property-detail-1.jpg",
@@ -261,6 +266,7 @@
       "lastVisited": "8-9-2020"
     },
     "homeImage": "./images/property-6.jpg",
+    "id": 6,
     "images": [
       "./images/property-6.jpg",
       "./images/property-detail-1.jpg",
@@ -307,6 +313,7 @@
       "lastVisited": "1-1-2020"
     },
     "homeImage": "./images/property-7.jpg",
+    "id": 7,
     "images": [
       "./images/property-7.jpg",
       "./images/property-detail-1.jpg",
@@ -353,6 +360,7 @@
       "lastVisited": "1-2-2020"
     },
     "homeImage": "./images/property-8.jpg",
+    "id": 8,
     "images": [
       "./images/property-8.jpg",
       "./images/property-detail-1.jpg",
@@ -399,6 +407,7 @@
       "lastVisited": "10-2-2020"
     },
     "homeImage": "./images/property-9.jpg",
+    "id": 9,
     "images": [
       "./images/property-9.jpg",
       "./images/property-detail-1.jpg",
@@ -445,6 +454,7 @@
       "lastVisited": "10-10-2020"
     },
     "homeImage": "./images/property-10.jpg",
+    "id": 10,
     "images": [
       "./images/property-10.jpg",
       "./images/property-detail-1.jpg",

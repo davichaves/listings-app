@@ -1,45 +1,36 @@
+/**
+ *
+ * Listings
+ *
+ */
 import React, { memo, useEffect, useState } from 'react';
+import styled from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useInjectReducer } from 'utils/redux-injectors';
-import { reducer, sliceKey, actions } from './slice';
-import { selectHomePage } from './slice/selectors';
+import { reducer, sliceKey, actions } from '../HomePage/slice';
+import { selectHomePage } from '../HomePage/slice/selectors';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
+import Pagination from '@material-ui/lab/Pagination';
 
 import { Navigation } from '../../components/Navigation/Loadable';
 import { Footer } from '../../components/Footer/Loadable';
 import { ListingCard } from '../../components/ListingCard/Loadable';
+import { ListingCardHorizontal } from '../../components/ListingCardHorizontal/Loadable';
 
 interface Props {}
 
 const useStyles = makeStyles(theme => ({
   icon: {
     marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-    flexGrow: 1,
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  heroImage: {
-    maxHeight: '400px',
-  },
-  featuredImage: {
-    maxHeight: '400px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
@@ -58,9 +49,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const HomePage = memo((props: Props) => {
+export const Listings = memo((props: Props) => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
-  const [search, setSearch] = useState('');
 
   useEffect(() => {
     if (homePage.listings.length < 1) {
@@ -91,36 +81,28 @@ export const HomePage = memo((props: Props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t, i18n } = useTranslation();
+  const [page, setPage] = React.useState(1);
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
+  const listingsPerPage = 4;
+  const totalPages = Math.ceil(homePage.listings.length / listingsPerPage);
+
+  const indexOfLastPost = page * listingsPerPage;
+  const indexOfFirstPost = indexOfLastPost - listingsPerPage;
+  const currentListings = homePage.listings.slice(
+    indexOfFirstPost,
+    indexOfLastPost,
+  );
 
   const classes = useStyles();
   const history = useHistory();
 
-  const handleSearchChange = e => {
-    setSearch(e.target.value);
-  };
-
-  let sortedListingsPerTotalVisits = homePage.listings
-    .slice()
-    .sort(function (a, b) {
-      return b.visits.total - a.visits.total;
-    });
-
-  let sortedListingsPerLastVisited = homePage.listings
-    .slice()
-    .sort(function (a, b) {
-      var keyA = new Date(a.visits.lastVisited),
-        keyB = new Date(b.visits.lastVisited);
-      if (keyA < keyB) return -1;
-      if (keyA > keyB) return 1;
-      return 0;
-    });
-
   return (
     <React.Fragment>
       <Helmet>
-        <title>Home</title>
+        <title>Listings</title>
         <meta
           name="description"
           content="This is a platform to show listings"
@@ -129,46 +111,6 @@ export const HomePage = memo((props: Props) => {
       <CssBaseline />
       <Navigation />
       <main>
-        {/* Hero unit */}
-        <div className={classes.heroContent}>
-          <Grid
-            container
-            direction="row"
-            justify="space-evenly"
-            alignItems="center"
-          >
-            <Grid item xs={undefined} sm={1} md={2} lg={3}></Grid>
-            <Grid item xs={12} sm={5} md={4} lg={3}>
-              <Typography
-                component="h3"
-                variant="h3"
-                align="center"
-                color="textPrimary"
-                gutterBottom
-              >
-                {'Looking for a new home?'}
-              </Typography>
-              <div className={classes.heroButtons}>
-                <Grid container spacing={2} justify="center">
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="search"
-                    name="search"
-                    placeholder="search here"
-                    autoFocus
-                    value={search}
-                    onChange={handleSearchChange}
-                  />
-                </Grid>
-              </div>
-            </Grid>
-            <Grid item xs={undefined} sm={1} md={2} lg={3}></Grid>
-          </Grid>
-        </div>
-        {/* End hero unit */}
         <Container className={classes.cardGrid} maxWidth="lg">
           <Typography
             component="h5"
@@ -177,10 +119,10 @@ export const HomePage = memo((props: Props) => {
             color="textPrimary"
             gutterBottom
           >
-            {'Most Visited'}
+            {'Your favorite homes'}
           </Typography>
           <Grid container spacing={4}>
-            {sortedListingsPerTotalVisits.slice(0, 5).map(listing => (
+            {homePage.listings.slice(0, 5).map(listing => (
               <Grid item key={listing.homeImage} xs={12} sm={2} md={2}>
                 <ListingCard listing={listing} />
               </Grid>
@@ -189,24 +131,37 @@ export const HomePage = memo((props: Props) => {
         </Container>
         <Container className={classes.cardGrid} maxWidth="lg">
           <Typography
-            component="h5"
-            variant="h5"
+            component="h4"
+            variant="h4"
             align="left"
             color="textPrimary"
             gutterBottom
           >
-            {'Last Visited'}
+            {'List of Homes'}
           </Typography>
           <Grid container spacing={4}>
-            {sortedListingsPerTotalVisits.slice(0, 5).map(listing => (
-              <Grid item key={listing.homeImage} xs={12} sm={2} md={2}>
-                <ListingCard listing={listing} />
+            {currentListings.map(listing => (
+              <Grid item key={listing.homeImage} xs={12} sm={12} md={12}>
+                <ListingCardHorizontal listing={listing} />
               </Grid>
             ))}
           </Grid>
+          <PaginationDiv>
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={handleChange}
+            />
+          </PaginationDiv>
         </Container>
       </main>
       <Footer />
     </React.Fragment>
   );
 });
+
+const PaginationDiv = styled.div`
+  margin: auto;
+  width: 20%;
+  padding: 10px;
+`;
