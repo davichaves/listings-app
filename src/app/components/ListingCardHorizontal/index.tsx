@@ -12,6 +12,7 @@ import Box from '@material-ui/core/Box';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 
 import { Listing } from '../../pages/HomePage/slice/types';
 
@@ -36,9 +37,15 @@ const useStyles = makeStyles({
 
 export function ListingCardHorizontal(props: Props) {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
-    <CardActionArea component="a" href="#">
+    <CardActionArea
+      component="a"
+      onClick={() => {
+        history.push(`listing/${props.listing.id}`);
+      }}
+    >
       <Card className={classes.card}>
         <div style={{ width: '25%' }}>
           <Box component="span" display="block" p={1} m={1}>

@@ -9,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 
 import { Listing } from '../../pages/HomePage/slice/types';
 
@@ -36,9 +37,15 @@ const useStyles = makeStyles(theme => ({
 
 export function ListingCard(props: Props) {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
-    <Card className={classes.card}>
+    <Card
+      className={classes.card}
+      onClick={() => {
+        history.push(`listing/${props.listing.id}`);
+      }}
+    >
       <CardMedia
         className={classes.cardMedia}
         image={props.listing.homeImage}

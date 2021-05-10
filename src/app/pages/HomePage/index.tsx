@@ -101,6 +101,12 @@ export const HomePage = memo((props: Props) => {
     setSearch(e.target.value);
   };
 
+  const handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      history.push(`listings?query=${search}`);
+    }
+  };
+
   let sortedListingsPerTotalVisits = homePage.listings
     .slice()
     .sort(function (a, b) {
@@ -161,6 +167,7 @@ export const HomePage = memo((props: Props) => {
                     autoFocus
                     value={search}
                     onChange={handleSearchChange}
+                    onKeyDown={handleKeyDown}
                   />
                 </Grid>
               </div>
