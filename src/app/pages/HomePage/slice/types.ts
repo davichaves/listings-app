@@ -31,6 +31,7 @@ export interface Listing {
     lastVisited: string;
   };
   homeImage: string;
+  id: number;
   images: string[];
 }
 
